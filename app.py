@@ -12,6 +12,9 @@ messages = [
 
 
 def send_message_to_ai(my_message: str) -> str:
+    if len(my_message) > 100:
+        return "That message is too large. Try a shorter one!"
+
     user_message = {"role": "user", "content": my_message}
     messages.append(user_message)
 
@@ -26,4 +29,10 @@ def send_message_to_ai(my_message: str) -> str:
     return message["content"]  # user only cares about content
 
 
-print(send_message_to_ai("Who won the 2016 NBA Finals?"))
+while True:
+    user_input = input("> ")
+    if user_input.lower() == "exit":
+        exit(0)  # gracefully quit our program
+
+    ai_response = send_message_to_ai(user_input)
+    print(f"🤖 {ai_response}")
