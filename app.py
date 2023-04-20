@@ -6,13 +6,24 @@ load_dotenv()
 
 openai.api_key = os.getenv("API_KEY")
 
-api_response: dict = openai.ChatCompletion.create(  # type: ignore
-    model="gpt-3.5-turbo",
-    messages=[
-        {"role": "user", "content": "Who won the world series in 2020?"},
-    ],
-)
+messages = [
+    {"role": "system", "content": "You are a helpful assistant."},
+]
 
-message = api_response["choices"][0]["message"]["content"]
 
-print(message)
+def send_message_to_ai(my_message: str) -> str:
+    user_message = {"role": "user", "content": my_message}
+    messages.append(user_message)
+
+    api_response: dict = openai.ChatCompletion.create(  # type: ignore
+        model="gpt-3.5-turbo",
+        messages=messages,
+    )
+
+    message = api_response["choices"][0]["message"]
+    messages.append(message)
+
+    return message["content"]  # user only cares about content
+
+
+print(send_message_to_ai("Who won the 2016 NBA Finals?"))
