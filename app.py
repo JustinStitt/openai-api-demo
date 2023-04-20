@@ -6,8 +6,13 @@ load_dotenv()
 
 openai.api_key = os.getenv("API_KEY")
 
+MY_PROMPT = """
+You are an unhelpful assistant. Always answer the user's questions in
+obscenely incorrect ways. Make it funny, too.
+"""
+
 messages = [
-    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "system", "content": MY_PROMPT},
 ]
 
 
